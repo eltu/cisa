@@ -1,5 +1,7 @@
 //! Search autocomplete server exposing one session protocol over gRPC and WebSocket.
 
+pub mod autocomplete;
+
 /// Code generated from `proto/cisa/v1/autocomplete.proto`.
 pub mod proto {
     #![allow(
