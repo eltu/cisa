@@ -1,0 +1,32 @@
+[package]
+name = "cisa"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+debug = false
+
+[profile.profiling]
+inherits = "release"
+debug = true
+
+[lints.rust]
+unsafe_op_in_unsafe_fn = "deny"
+missing_debug_implementations = "warn"
+
+[lints.clippy]
+cognitive_complexity = "warn"
+too_many_arguments = "warn"
+too_many_lines = "warn"
+unwrap_used = "warn"
+dbg_macro = "warn"
+print_stdout = "warn"
+print_stderr = "warn"
+undocumented_unsafe_blocks = "warn"
+allow_attributes_without_reason = "warn"
