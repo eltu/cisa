@@ -1,4 +1,4 @@
-.PHONY: check fmt fmt-check lint test coverage bench run
+.PHONY: check fmt fmt-check lint test coverage bench run docker-build docker-up
 
 check: fmt-check lint test
 
@@ -23,3 +23,9 @@ bench:
 
 run:
 	cargo run --release
+
+docker-build:
+	docker build -t cisa:dev .
+
+docker-up:
+	docker compose up --build

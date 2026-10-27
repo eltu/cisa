@@ -21,6 +21,15 @@ make run       # optimized build
 make coverage  # requires: cargo install cargo-llvm-cov
 ```
 
+## Docker
+
+```bash
+docker compose up --build      # or: make docker-up
+```
+
+Then point the front-end at `ws://localhost:8080/ws`. The image listens on
+`0.0.0.0:8080`; every `CISA_*` variable below can be overridden in `compose.yaml`.
+
 ## Configuration
 
 | Variable | Default | Description |

@@ -233,6 +233,8 @@ that only exercises the happy path has low value.
 │       └── ws.rs
 ├── tests/                   # Integration tests with real gRPC / WebSocket clients
 ├── docs/adr/                # Architecture Decision Records
+├── Dockerfile               # Release image (distroless, non-root)
+├── compose.yaml             # Local server for front-end development
 ├── Makefile
 └── Cargo.toml
 ```
@@ -252,6 +254,7 @@ that only exercises the happy path has low value.
 - ADR 0002: Session protocol — bidirectional `AutocompleteService.Session`; envelope with u64 `request_id`; new request supersedes the one in flight; cancelled/superseded requests get no reply; WebSocket carries binary protobuf frames.
 - ADR 0003: Suggestion backend behind the `SuggestionEngine` port; `MockEngine` until a real engine exists.
 - ADR 0004: Protobuf codegen with `protox` + `tonic-prost-build`; no system `protoc`.
+- ADR 0005: Multi-stage Docker image (rust slim → distroless/cc nonroot) listening on `0.0.0.0:8080`; `compose.yaml` for local front-end development.
 
 ## Formatting
 
