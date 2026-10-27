@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package cisa.v1;
+
+// Search autocomplete over a long-lived bidirectional session.
+// The same messages are used over gRPC and over WebSocket binary frames.
+service AutocompleteService {
+  // Many requests may be in flight on one session; responses are matched by request_id
+  // and may arrive out of order. A new suggest request supersedes the previous one.
+  rpc Session(stream ClientMessage) returns (stream ServerMessage);
+}
+
+message ClientMessage {
+  // Client-generated, monotonically increasing id echoed back in the response.
+  uint64 request_id = 1;
+  oneof payload {
+    SuggestRequest suggest = 2;
+    Cancel cancel = 3;
+  }
+}
+
+message ServerMessage {
+  uint64 request_id = 1;
+  oneof payload {
+    SuggestResult result = 2;
+    Error error = 3;
+  }
+}
+
+message SuggestRequest {
+  // Text typed so far, e.g. "como fazer bo".
+  string query = 1;
+  // BCP 47 language tag for the suggestions, e.g. "pt-BR". Empty = server default.
+  string locale = 2;
+  // ISO 3166-1 alpha-2 country for local relevance, e.g. "BR". Empty = no region.
+  string region = 3;
+  // Maximum number of suggestions. 0 = server default; values above the cap are clamped.
+  uint32 limit = 4;
+}
+
+message SuggestResult {
+  // Ordered from most to least relevant. May be empty; that is not an error.
+  repeated Suggestion suggestions = 1;
+}
+
+message Suggestion {
+  // Full search query, e.g. "como fazer bolo de cenoura".
+  string text = 1;
+}
+
+// Cancels the request identified by the envelope request_id. No response is sent.
+message Cancel {}
+
+message Error {
+  ErrorCode code = 1;
+  // Human-readable detail for logs; not meant to be shown to end users.
+  string message = 2;
+}
+
+enum ErrorCode {
+  ERROR_CODE_UNSPECIFIED = 0;
+  // Client error: fix the request, retrying will not help.
+  ERROR_CODE_INVALID_ARGUMENT = 1;
+  // Engine overloaded or down: the client may retry later.
+  ERROR_CODE_ENGINE_UNAVAILABLE = 2;
+  // Server bug.
+  ERROR_CODE_INTERNAL = 3;
+}
