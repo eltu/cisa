@@ -1,3 +1,3 @@
 fn main() {
-    // no-op: ponto de partida vazio; o servidor será construído aqui.
+    // no-op: empty starting point; the server will be built here.
 }

@@ -1,10 +1,10 @@
 # cisa
 
-Servidor de autocomplete de código com IA, focado em baixa latência.
+AI-powered code autocomplete server focused on low latency.
 
-## Comandos
+## Commands
 
 ```bash
-make check     # fmt + clippy + testes
-make run       # build otimizado
+make check     # fmt + clippy + tests
+make run       # optimized build
 ```

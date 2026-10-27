@@ -14,7 +14,7 @@ lint:
 test:
 	cargo test --all-features
 
-# Requer: cargo install cargo-llvm-cov
+# Requires: cargo install cargo-llvm-cov
 coverage:
 	cargo llvm-cov --all-features --summary-only --fail-under-lines 89
 

@@ -27,14 +27,16 @@ Latency is the product: every decision on the request hot path must consider p50
 - Early returns over nested `if`s. Max 2 levels of indentation. Prefer `?`,
   `let ... else` and guard clauses.
 - Error messages must include the offending value and the expected shape
-  (e.g. `"temperature 3.1 fora do intervalo 0.0..=2.0"`).
+  (e.g. `"temperature 3.1 out of range 0.0..=2.0"`).
 - Traits used as ports are named by capability (`CompletionEngine`, `Tokenizer`,
   `CompletionCache`). Single-method helper traits may use the verb+"-er" form.
 - No `unwrap()` outside tests (enforced by `clippy::unwrap_used`). `expect()` only
   for real invariants, with a message saying why it cannot fail.
 - `#[allow(...)]` must carry a `reason = "..."` (enforced by `clippy::allow_attributes_without_reason`).
 - No `println!`/`eprintln!`/`dbg!` — use `tracing`.
-- Language: identifiers in English; comments, docs, log and error messages in Portuguese (pt-BR).
+- Language: everything in the repository is written in English — identifiers, comments,
+  doc comments, log messages, error messages, test names, commit messages, ADRs and docs.
+  This applies even when the conversation with the user is in another language.
 
 ## Errors
 
@@ -71,7 +73,7 @@ Latency is the product: every decision on the request hot path must consider p50
 ## Comments
 
 - Keep existing comments. Don't strip them on refactor — they carry intent and provenance.
-- Write WHY, not WHAT. Skip `// incrementa contador` above `i += 1`.
+- Write WHY, not WHAT. Skip `// increment counter` above `i += 1`.
 - Public items must have a doc comment (`///`): one line of intent + an
   `# Examples` block when practical (use `no_run` for examples needing a runtime or model).
 - Reference issue numbers / commit SHAs when a line exists because of a specific bug or upstream constraint.
@@ -240,5 +242,5 @@ that only exercises the happy path has low value.
   not interpolated strings.
 - Never log user code (`prefix`, `suffix`) at `info` or above — it is private
   source code. Log sizes and hashes instead.
-- HTTP error bodies are JSON: `{ "error": "<mensagem>" }`.
+- HTTP error bodies are JSON: `{ "error": "<message>" }`.
 - API changes that break clients require a new versioned route (`/v2/...`) and an ADR.
