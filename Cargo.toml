@@ -4,6 +4,15 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+axum = { version = "0.8.9", default-features = false, features = ["http1", "http2", "ws", "tokio"] }
+prost = "0.14.4"
+thiserror = "2.0.21"
+tokio = { version = "1.54.1", default-features = false, features = ["rt-multi-thread", "macros", "net", "signal", "sync", "time"] }
+tokio-stream = "0.1.19"
+tonic = "0.14.7"
+tonic-prost = "0.14.7"
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", default-features = false, features = ["fmt", "env-filter", "ansi", "std"] }
 
 [profile.release]
 opt-level = 3
@@ -30,3 +39,13 @@ print_stdout = "warn"
 print_stderr = "warn"
 undocumented_unsafe_blocks = "warn"
 allow_attributes_without_reason = "warn"
+
+[build-dependencies]
+protox = "0.10.0"
+tonic-prost-build = "0.14.7"
+
+[dev-dependencies]
+futures-util = { version = "0.3.34", default-features = false, features = ["sink", "std"] }
+rstest = "0.28.0"
+tokio = { version = "1.54.1", features = ["test-util", "io-util", "macros", "rt-multi-thread"] }
+tokio-tungstenite = "0.30.0"

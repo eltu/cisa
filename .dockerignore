@@ -1,0 +1,7 @@
+target
+.git
+docs
+tests
+*.md
+Dockerfile
+compose.yaml
