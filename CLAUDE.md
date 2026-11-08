@@ -224,13 +224,27 @@ that only exercises the happy path has low value.
 │   │   ├── service.rs       # Validation + engine call
 │   │   ├── session.rs       # request_id, supersede, cancel
 │   │   ├── error.rs
-│   │   └── mock_engine.rs   # Adapter: deterministic fake engine
+│   │   ├── normalize.rs     # Query folding shared by indexer and engine
+│   │   ├── mock_engine.rs   # Adapter: deterministic fake engine
+│   │   └── fst_engine/      # Adapter: SuggestionEngine over fst
+│   │       ├── mod.rs       # FstEngine
+│   │       ├── key_codec.rs # normalized ‖ 0x00 ‖ surface keys
+│   │       ├── index_build.rs # corpus → sorted keys → FST bytes
+│   │       └── error.rs
 │   └── transport/           # Delivery adapters, single router
 │       ├── mod.rs           # /health, /ws, gRPC on one port
 │       ├── session_driver.rs# Shared session loop + SessionTransport trait
 │       ├── proto.rs         # protobuf ↔ domain
 │       ├── grpc.rs
 │       └── ws.rs
+├── crates/
+│   └── fst/                 # In-house FST library; never depends on `cisa`
+│       └── src/
+│           ├── output.rs    # Output algebra (MinCost)
+│           ├── format/      # Binary contract shared by build/ and read/
+│           ├── build/       # Daciuk construction: unfinished, registry, node_writer
+│           ├── read/        # Zero-copy Fst over AsRef<[u8]>
+│           └── search/      # Automaton trait, Prefix, top-k
 ├── tests/                   # Integration tests with real gRPC / WebSocket clients
 ├── docs/adr/                # Architecture Decision Records
 ├── Dockerfile               # Release image (distroless, non-root)
@@ -255,6 +269,7 @@ that only exercises the happy path has low value.
 - ADR 0003: Suggestion backend behind the `SuggestionEngine` port; `MockEngine` until a real engine exists.
 - ADR 0004: Protobuf codegen with `protox` + `tonic-prost-build`; no system `protoc`.
 - ADR 0005: Multi-stage Docker image (rust slim → distroless/cc nonroot) listening on `0.0.0.0:8080`; `compose.yaml` for local front-end development.
+- ADR 0006 (proposed): In-house FST in the isolated workspace crate `crates/fst` (no `cisa` dependency, no unsafe); `autocomplete/fst_engine/` is the adapter; `MinCost` outputs for exact top-k; text normalization stays in the domain. Algorithms are still stubs marked `STUB (docs/adr/0006)`.
 
 ## Formatting
 

@@ -9,6 +9,8 @@ WORKDIR /app
 # 1. Dependencies layer: rebuilt only when the manifest, lockfile or contract change.
 COPY Cargo.toml Cargo.lock build.rs ./
 COPY proto ./proto
+# Workspace path dependencies are part of the dependency graph, so they join this layer.
+COPY crates ./crates
 RUN mkdir src \
     && echo 'fn main() {}' > src/main.rs \
     && touch src/lib.rs \

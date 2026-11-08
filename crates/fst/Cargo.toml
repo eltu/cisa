@@ -1,0 +1,15 @@
+[package]
+name = "fst"
+version = "0.1.0"
+edition = "2024"
+description = "Minimal acyclic finite state transducer owned by cisa (see docs/adr/0006)."
+publish = false
+
+[dependencies]
+thiserror = { workspace = true }
+
+[dev-dependencies]
+rstest = { workspace = true }
+
+[lints]
+workspace = true
