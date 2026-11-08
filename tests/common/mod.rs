@@ -6,7 +6,7 @@
 use std::{net::SocketAddr, sync::Arc};
 
 use cisa::{
-    autocomplete::{MockEngine, SuggestLimits, SuggestService},
+    autocomplete::{SuggestLimits, SuggestService, SuggestionEngine},
     proto::{ClientMessage, SuggestRequest, client_message::Payload},
     shutdown::{self, ShutdownTrigger},
     transport,
@@ -21,7 +21,7 @@ pub struct TestServer {
     pub shutdown: ShutdownTrigger,
 }
 
-pub async fn spawn_server(engine: MockEngine) -> TestServer {
+pub async fn spawn_server(engine: impl SuggestionEngine) -> TestServer {
     let service = Arc::new(SuggestService::new(
         Arc::new(engine),
         SuggestLimits::default(),
