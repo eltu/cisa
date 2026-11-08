@@ -9,14 +9,14 @@ fmt-check:
 	cargo fmt --all -- --check
 
 lint:
-	cargo clippy --all-targets --all-features -- -D warnings
+	cargo clippy --workspace --all-targets --all-features -- -D warnings
 
 test:
-	cargo test --all-features
+	cargo test --workspace --all-features
 
 # Requires: cargo install cargo-llvm-cov
 coverage:
-	cargo llvm-cov --all-features --summary-only --fail-under-lines 89
+	cargo llvm-cov --workspace --all-features --summary-only --fail-under-lines 89
 
 bench:
 	cargo bench

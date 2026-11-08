@@ -3,10 +3,18 @@ name = "cisa"
 version = "0.1.0"
 edition = "2024"
 
+[workspace]
+members = ["crates/*"]
+
+[workspace.dependencies]
+rstest = "0.28.0"
+thiserror = "2.0.21"
+
 [dependencies]
 axum = { version = "0.8.9", default-features = false, features = ["http1", "http2", "ws", "tokio"] }
+fst = { path = "crates/fst" }
 prost = "0.14.4"
-thiserror = "2.0.21"
+thiserror = { workspace = true }
 tokio = { version = "1.54.1", default-features = false, features = ["rt-multi-thread", "macros", "net", "signal", "sync", "time"] }
 tokio-stream = "0.1.19"
 tonic = "0.14.7"
@@ -25,11 +33,11 @@ debug = false
 inherits = "release"
 debug = true
 
-[lints.rust]
+[workspace.lints.rust]
 unsafe_op_in_unsafe_fn = "deny"
 missing_debug_implementations = "warn"
 
-[lints.clippy]
+[workspace.lints.clippy]
 cognitive_complexity = "warn"
 too_many_arguments = "warn"
 too_many_lines = "warn"
@@ -40,12 +48,15 @@ print_stderr = "warn"
 undocumented_unsafe_blocks = "warn"
 allow_attributes_without_reason = "warn"
 
+[lints]
+workspace = true
+
 [build-dependencies]
 protox = "0.10.0"
 tonic-prost-build = "0.14.7"
 
 [dev-dependencies]
 futures-util = { version = "0.3.34", default-features = false, features = ["sink", "std"] }
-rstest = "0.28.0"
+rstest = { workspace = true }
 tokio = { version = "1.54.1", features = ["test-util", "io-util", "macros", "rt-multi-thread"] }
 tokio-tungstenite = "0.30.0"

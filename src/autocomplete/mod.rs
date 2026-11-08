@@ -3,13 +3,16 @@
 //! Nothing in this module knows about gRPC, WebSocket or protobuf.
 
 mod error;
+mod fst_engine;
 mod mock_engine;
+mod normalize;
 mod service;
 mod session;
 
 use std::{future::Future, pin::Pin};
 
 pub use error::SuggestError;
+pub use fst_engine::{DEFAULT_MAX_EXPANSIONS, FstEngine, FstEngineError, IndexEntry, build_index};
 pub use mock_engine::MockEngine;
 pub use service::{SuggestLimits, SuggestService};
 pub use session::{SessionCommand, SessionReply, SuggestSession};
